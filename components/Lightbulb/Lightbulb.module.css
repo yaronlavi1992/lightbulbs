@@ -1,0 +1,7 @@
+.lightbulb {
+  flex-grow: 1;
+  width: 31%;
+  border-radius: 50%;
+  border: 1px solid black;
+  margin: 3px;
+}
