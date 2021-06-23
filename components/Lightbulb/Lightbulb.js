@@ -19,7 +19,8 @@ function Lightbulb(props) {
 
   return (
     <div
-      onClick={props.onClickCallback}
+      onClick={props.action}
+      // onClick={props.onClickCallback}
       className={styles.lightbulb}
       style={{ backgroundColor: color }}
     />

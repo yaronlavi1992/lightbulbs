@@ -1,19 +1,17 @@
 import Head from 'next/head';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../styles/Home.module.css';
-
-export const UserContext = createContext({ name: '', score: 0, bestScore: 0 });
+import { UserContext } from '../Context/UserContext';
 
 export default function Home() {
-  const user = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
   const [username, setUsername] = useState('');
   const router = useRouter();
 
-  function startOnClickHandler() {
-    user.name = username;
-    router.push('/play');
-  }
+  useEffect(() => {
+    setUser({ name: username });
+  }, [username]);
 
   return (
     <div className={styles.container}>
@@ -32,7 +30,7 @@ export default function Home() {
             onChange={(e) => setUsername(e.target.value)}
             placeholder='Enter your name'
           />
-          <button onClick={startOnClickHandler}>Start</button>
+          <button onClick={() => router.push('/play')}>Start</button>
         </div>
       </main>
     </div>

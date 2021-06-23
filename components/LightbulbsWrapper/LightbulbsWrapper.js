@@ -1,37 +1,44 @@
 import Lightbulb from '../Lightbulb/Lightbulb';
 import { useContext, useState, useEffect, useRef } from 'react';
 import styles from './LightbulbsWrapper.module.css';
-import { UserContext } from '../../pages';
+import { UserContext } from '../../Context/UserContext';
 
 function LightbulbsWrapper(props) {
-  const user = useContext(UserContext);
-  const [sequence, setSequence] = useState([]);
-  const [clickCount, setClickCount] = useState(0);
+  const [user, setUser] = useContext(UserContext);
+  const [sequence, setSequence] = useState([0]);
+  const [userInput, setUserInput] = useState([]);
   const [colors, setColors] = useState([]);
   const [litBulb, setLitBulb] = useState(null);
 
   useEffect(() => {
     generateUniqueColors();
-    addToSequence();
     playSequence();
+    console.log(user.score);
   }, []);
 
   useEffect(() => {
     playSequence();
   }, [sequence]);
 
-  function onClickCallbackHandler(bulbIndex) {
-    setClickCount(clickCount + 1);
-    if (bulbIndex === litBulb) {
-      user.score += 10;
-      if (user.bestScore < user.score) {
-        user.bestScore = user.score;
+  useEffect(() => {
+    if (userInput.length === sequence.length) {
+      let correct = true;
+      for (let i = 0; i < sequence.length; i++) {
+        if (sequence[i] !== userInput[i]) {
+          correct = false;
+        }
+      }
+      if (correct) {
+        setUser({ ...user, score: user.score + 10 });
+        setUserInput([]);
+        addToSequence();
+      } else {
+        setUser({ ...user, score: 0 });
+        setUserInput([]);
+        setSequence([0]);
       }
     }
-    if (clickCount === sequence.length) {
-      addToSequence();
-    }
-  }
+  }, [userInput]);
 
   function addToSequence() {
     const bulbNumber = Math.floor(Math.random() * props.bulbsCount);
@@ -71,7 +78,7 @@ function LightbulbsWrapper(props) {
       bulbsToRender.push(
         <Lightbulb
           lit={i === litBulb}
-          onClickCallback={() => onClickCallbackHandler(i)}
+          action={() => setUserInput([...userInput, i])}
           key={i}
           bgColor={colors[i]}
         />
