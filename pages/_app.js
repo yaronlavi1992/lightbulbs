@@ -1,14 +1,12 @@
-import { UserContext } from '../Context/UserContext';
 import { useState } from 'react';
+import { UserProvider } from '../Context/UserContext';
 import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }) {
-  const [user, setUser] = useState({ name: '', score: 0, bestScore: 0 });
-
   return (
-    <UserContext.Provider value={[user, setUser]}>
+    <UserProvider>
       <Component {...pageProps} />
-    </UserContext.Provider>
+    </UserProvider>
   );
 }
 

@@ -1,17 +1,20 @@
 import Head from 'next/head';
-import { createContext, useContext, useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../styles/Home.module.css';
-import { UserContext } from '../Context/UserContext';
+import { useDispatchUser, useUser } from '../Context/UserContext';
 
 export default function Home() {
-  const [user, setUser] = useContext(UserContext);
+  const user = useUser();
+  const dispatch = useDispatchUser();
   const [username, setUsername] = useState('');
   const router = useRouter();
 
-  useEffect(() => {
-    setUser({ name: username });
-  }, [username]);
+  const handleUsername = (val) =>
+    dispatch({
+      type: 'UPDATE_NAME',
+      payload: val,
+    });
 
   return (
     <div className={styles.container}>
@@ -26,8 +29,8 @@ export default function Home() {
           <h2>Welcome to Lightbulbs Memory Game</h2>
           <input
             type='text'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={user.name}
+            onChange={(e) => handleUsername(e.target.value)}
             placeholder='Enter your name'
           />
           <button onClick={() => router.push('/play')}>Start</button>

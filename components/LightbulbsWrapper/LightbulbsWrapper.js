@@ -1,19 +1,38 @@
 import Lightbulb from '../Lightbulb/Lightbulb';
-import { useContext, useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './LightbulbsWrapper.module.css';
-import { UserContext } from '../../Context/UserContext';
+import { useDispatchUser, useUser } from '../../Context/UserContext';
 
 function LightbulbsWrapper(props) {
-  const [user, setUser] = useContext(UserContext);
+  const user = useUser();
+  const dispatch = useDispatchUser();
   const [sequence, setSequence] = useState([0]);
   const [userInput, setUserInput] = useState([]);
   const [colors, setColors] = useState([]);
   const [litBulb, setLitBulb] = useState(null);
 
+  const handleIncreaseScore = () => {
+    dispatch({
+      type: 'INCREASE_SCORE',
+    });
+  };
+
+  const handleResetScore = () => {
+    dispatch({
+      type: 'RESET_SCORE',
+    });
+  };
+
+  const handleNewBestScore = (score) => {
+    dispatch({
+      type: 'NEW_BEST_SCORE',
+      payload: score,
+    });
+  };
+
   useEffect(() => {
     generateUniqueColors();
     playSequence();
-    console.log(user.score);
   }, []);
 
   useEffect(() => {
@@ -29,11 +48,14 @@ function LightbulbsWrapper(props) {
         }
       }
       if (correct) {
-        setUser({ ...user, score: user.score + 10 });
+        handleIncreaseScore();
         setUserInput([]);
         addToSequence();
       } else {
-        setUser({ ...user, score: 0 });
+        if (user.score > Math.max(...user.bestScoresHistory)) {
+          handleNewBestScore(user.score);
+        }
+        handleResetScore();
         setUserInput([]);
         setSequence([0]);
       }
@@ -47,15 +69,20 @@ function LightbulbsWrapper(props) {
 
   function playSequence() {
     console.log(sequence);
+    console.log('bestScoresHistory', user.bestScoresHistory);
     let currentSeq = [...sequence];
     let seqInt = setInterval(() => {
       if (currentSeq.length > 0) {
-        setLitBulb(currentSeq.shift());
-        setLitBulb(null); // reset lit to prevent matched prev bulb relit issue
+        lightBulbByNumber(currentSeq.shift());
       } else {
         clearInterval(seqInt);
       }
     }, 1000);
+  }
+
+  function lightBulbByNumber(bulbNumber) {
+    setLitBulb(bulbNumber);
+    setLitBulb(null); // reset lit to prevent matched prev bulb relit issue
   }
 
   function generateUniqueColors() {

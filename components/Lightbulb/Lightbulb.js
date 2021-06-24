@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './Lightbulb.module.css';
 
 function Lightbulb(props) {
@@ -20,7 +20,6 @@ function Lightbulb(props) {
   return (
     <div
       onClick={props.action}
-      // onClick={props.onClickCallback}
       className={styles.lightbulb}
       style={{ backgroundColor: color }}
     />
