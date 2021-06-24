@@ -12,6 +12,7 @@ const reducer = (state, action) => {
     case 'UPDATE_NAME':
       return { ...state, name: action.payload };
     case 'NEW_BEST_SCORE':
+      console.log('action.payload', action.payload);
       return {
         ...state,
         bestScoresHistory: [...state.bestScoresHistory, action.payload],
@@ -25,7 +26,14 @@ export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {
     name: '',
     score: 0,
-    bestScoresHistory: [0],
+    bestScoresHistory: [
+      {
+        name: 'anonymous',
+        score: 0,
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+      },
+    ],
   });
   return (
     <UserDispatchContext.Provider value={dispatch}>

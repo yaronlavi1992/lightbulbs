@@ -23,10 +23,15 @@ function LightbulbsWrapper(props) {
     });
   };
 
-  const handleNewBestScore = (score) => {
+  const handleNewBestScore = () => {
     dispatch({
       type: 'NEW_BEST_SCORE',
-      payload: score,
+      payload: {
+        name: user.name,
+        score: user.score,
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+      },
     });
   };
 
@@ -52,8 +57,11 @@ function LightbulbsWrapper(props) {
         setUserInput([]);
         addToSequence();
       } else {
-        if (user.score > Math.max(...user.bestScoresHistory)) {
-          handleNewBestScore(user.score);
+        if (
+          user.score >
+          Math.max(...user.bestScoresHistory.map((scoreObj) => scoreObj.score))
+        ) {
+          handleNewBestScore();
         }
         handleResetScore();
         setUserInput([]);
