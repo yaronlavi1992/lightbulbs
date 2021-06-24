@@ -45,6 +45,9 @@ function LightbulbsWrapper(props) {
   }, [sequence]);
 
   useEffect(() => {
+    if (userInput.length > 0) {
+      lightBulbByNumber(userInput[userInput.length - 1]);
+    }
     if (userInput.length === sequence.length) {
       let correct = true;
       for (let i = 0; i < sequence.length; i++) {
@@ -77,7 +80,6 @@ function LightbulbsWrapper(props) {
 
   function playSequence() {
     console.log(sequence);
-    console.log('bestScoresHistory', user.bestScoresHistory);
     let currentSeq = [...sequence];
     let seqInt = setInterval(() => {
       if (currentSeq.length > 0) {
@@ -89,6 +91,7 @@ function LightbulbsWrapper(props) {
   }
 
   function lightBulbByNumber(bulbNumber) {
+    console.log('light bulb num: ', bulbNumber);
     setLitBulb(bulbNumber);
     setLitBulb(null); // reset lit to prevent matched prev bulb relit issue
   }
@@ -96,9 +99,11 @@ function LightbulbsWrapper(props) {
   function generateUniqueColors() {
     let generatedColors = [];
     for (let i = 0; i < props.bulbsCount; i++) {
-      generatedColors.push(
-        '#' + ((Math.random() * 0xffffff) << 0).toString(16)
-      );
+      let color = '#';
+      for (let j = 0; j < 6; j++) {
+        color += Math.floor(Math.random() * 10);
+      }
+      generatedColors.push(color);
     }
     // prevent duplicate colors
     if ([...new Set(generatedColors)].length !== props.bulbsCount) {

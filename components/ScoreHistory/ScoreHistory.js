@@ -5,10 +5,6 @@ import styles from './ScoreHistory.module.css';
 function ScoreHistory() {
   const user = useUser();
 
-  useEffect(() => {
-    console.log('user.bestScoresHistory', user.bestScoresHistory);
-  }, []);
-
   return (
     <ul className={styles.ul}>
       {user.bestScoresHistory
