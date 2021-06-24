@@ -79,7 +79,6 @@ function LightbulbsWrapper(props) {
   }
 
   function playSequence() {
-    console.log(sequence);
     let currentSeq = [...sequence];
     let seqInt = setInterval(() => {
       if (currentSeq.length > 0) {
@@ -91,9 +90,10 @@ function LightbulbsWrapper(props) {
   }
 
   function lightBulbByNumber(bulbNumber) {
-    console.log('light bulb num: ', bulbNumber);
     setLitBulb(bulbNumber);
-    setLitBulb(null); // reset lit to prevent matched prev bulb relit issue
+    setTimeout(() => {
+      setLitBulb(null); // reset lit to prevent matched prev bulb relit issue
+    }, 500);
   }
 
   function generateUniqueColors() {
@@ -118,7 +118,10 @@ function LightbulbsWrapper(props) {
       bulbsToRender.push(
         <Lightbulb
           lit={i === litBulb}
-          action={() => setUserInput([...userInput, i])}
+          action={() => {
+            lightBulbByNumber(i);
+            setUserInput([...userInput, i]);
+          }}
           key={i}
           bgColor={colors[i]}
         />
