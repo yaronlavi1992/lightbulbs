@@ -1,7 +1,7 @@
 import Lightbulb from '../Lightbulb/Lightbulb';
 import { useState, useEffect } from 'react';
-import styles from './LightbulbsWrapper.module.css';
 import { useDispatchUser, useUser } from '../../Context/UserContext';
+import styles from './LightbulbsWrapper.module.css';
 
 function LightbulbsWrapper(props) {
   const user = useUser();

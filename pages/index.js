@@ -1,19 +1,17 @@
 import Head from 'next/head';
-import { useState } from 'react';
 import { useRouter } from 'next/router';
-import styles from '../styles/Home.module.css';
 import { useDispatchUser, useUser } from '../Context/UserContext';
+import styles from '../styles/Home.module.css';
 
 export default function Home() {
   const user = useUser();
   const dispatch = useDispatchUser();
-  const [username, setUsername] = useState('');
   const router = useRouter();
 
-  const handleUsername = (val) =>
+  const handleUsername = (userInput) =>
     dispatch({
       type: 'UPDATE_NAME',
-      payload: val,
+      payload: userInput,
     });
 
   return (

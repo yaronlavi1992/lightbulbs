@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { UserProvider } from '../Context/UserContext';
 import '../styles/globals.css';
 

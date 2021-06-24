@@ -1,10 +1,9 @@
 import LightbulbsWrapper from '../LightbulbsWrapper/LightbulbsWrapper';
+import { useUser } from '../../Context/UserContext';
 import styles from './PlayBoard.module.css';
-import { useDispatchUser, useUser } from '../../Context/UserContext';
 
 function PlayBoard() {
   const user = useUser();
-  const dispatch = useDispatchUser();
 
   return (
     <div className={styles.playground}>

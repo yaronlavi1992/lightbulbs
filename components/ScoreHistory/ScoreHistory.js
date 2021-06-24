@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useUser } from '../../Context/UserContext';
 import styles from './ScoreHistory.module.css';
 
