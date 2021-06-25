@@ -6,10 +6,8 @@ function play() {
   return (
     <main className={styles.main}>
       <div className={styles.container}>
-        <div className={styles.columnLayout}>
-          <ScoreHistory />
-          <PlayBoard />
-        </div>
+        <PlayBoard />
+        <ScoreHistory />
       </div>
     </main>
   );
